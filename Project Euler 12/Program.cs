@@ -21,19 +21,19 @@ namespace Project_Euler_12
             {
                 counter++;
                 number += counter;
-                if (number > 100000000)
+                if (number > 0)
                 {
                     Divisors = Numbers(number, NumOfDivisors);
-                    Console.WriteLine(number);
+                    //Console.WriteLine(number);
                 }
             }
             Console.WriteLine(number);
         }
-        static bool Numbers (BigInteger number, int NumOfDivisors)
+        static bool Numbers(BigInteger number, int NumOfDivisors)
         {
             int i = 0;
             int counter = 0;
-            while (i < number/2)
+            while (i < Sqrt(number))
             {
                 i++;
                 if (number % i == 0)
@@ -41,13 +41,38 @@ namespace Project_Euler_12
                     counter++;
                 }
             }
+            counter++;
+            //Console.WriteLine(counter);
             if (counter > NumOfDivisors)
             {
-                Console.WriteLine(NumOfDivisors);
+                //Console.WriteLine(NumOfDivisors);
                 return true;
 
             }
             return false;
+        }
+        static BigInteger Sqrt(BigInteger n)
+        {
+            if (n < 0) throw new ArgumentException("Square root of negative numbers is undefined for BigInteger.");
+            if (n == 0 || n == 1) return n;
+
+            BigInteger low = 1;
+            BigInteger high = n;
+            while (low <= high)
+            {
+                BigInteger mid = (low + high) / 2;
+                BigInteger midSquared = mid * mid;
+
+                if (midSquared == n)
+                    return mid;
+                else if (midSquared < n)
+                    low = mid + 1;
+                else
+                    high = mid - 1;
+            }
+
+            return high; // Return the floor of sqrt(n) if n is not a perfect square
+
         }
     }
 }
